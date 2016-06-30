@@ -126,7 +126,7 @@
 		var fb_content = document.getElementById("feedback-box").value;
 		var fb_parsed = parse_text(fb_content);
 		var rand = Math.floor((Math.random() * 10) + 1);
-		return "<tr class='fade'><td>" + fb_index + "</td><td>" + cur_time.toLocaleTimeString() + "</td><td>" + fb_parsed + "</td><td>" + "IP" + rand + "</td></tr>";
+		return "<tr class='fade'><td>" + fb_index + "</td><td>" + cur_time.toLocaleTimeString() + "</td><td contenteditable=true>" + fb_parsed + "</td><td>" + "IP" + rand + "</td></tr>";
 	}
 	function parse_text(text) {
 		var fun = "#timesince";
