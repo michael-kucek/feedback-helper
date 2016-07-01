@@ -56,16 +56,16 @@
               border-bottom-right-radius: 5px;
             }
             .timer {
-            	transition: background 60s;
-            	-webkit-transition: background 60s;
+            	transition: background 6s;
+            	-webkit-transition: background 6s;
             	-webkit-transition-delay: 5s
             }
             .hourglass {
             	width: 100px;
-            	height: 100px
-            	background: green;
-            	-webkit-transition: height 60s
-            	
+            	height: 2px;
+            	background: #98bf21;
+	            position: relative;
+	           	bottom: -44px;
             }
         </style>
     </head>
@@ -78,11 +78,17 @@
 				<td>
 					<div id='timer' color='black' class='timer'>00m:00s</div>	
 				</td>
-				<td><div class='hourglass'><div>
-				</td></tr>
+				<td><div id='hourglass' class='hourglass'><div>
+				</td>
+				<td>Help<br><li>Type "#timesince[line number] to calculate the time passed"</li>
+				<li>second</li>
+				</td>
+				</tr>
 				</table>
         <p>Feedback</p>
-        <textarea id="feedback-box" rows="2" cols="80">line</textarea>
+		<textarea id="feedback-box" rows="2" cols="80">line</textarea>
+		
+        
         <button id="submit-feedback" onclick="feedbackClick()">Submit</button>
         <div><button id ='change-sort' onclick="adButton()">Ascend/Descend</button></div>
         <p id="feedback-history"></p>
@@ -90,7 +96,7 @@
         <table id="fbtable">
             <thead>
             <tr>
-                <td width="40px">#</td>>
+                <td width="40px">#chasldkjfa;lskdjf</td>>
                 <td width="100px">Time</td>
                 <td width="600px">Observation</td>
                 <td width="80px">IP</td>
@@ -123,8 +129,7 @@
 
             function feedbackClick(){
                	if (fb_index == 0){
-               		document.getElementById("timer").style.background = 'green';
-//                		document.getElementById("hourglass").style.height = '0px';
+<!--                		document.getElementById("hourglass").style.height = '100px'; -->
             		clocking();
             	} 
                 fb_index ++;
@@ -150,6 +155,14 @@
                 return "<tr class='fade'><td>" + fb_index + "</td><td>" + cur_time.toLocaleTimeString() + "</td><td contenteditable=true>"  + fb_parsed + "</td><td>" + "IP" + rand + "</td></tr>\n";
             }
             function parse_text(text) {
+            	var teacher = "T:";
+            	var teacher_re = /T:/i;
+            	var t_match = teacher_re.exec(text)
+            	if (t_match != null){
+            		var t_array = text.split(teacher_re);
+	            	text = t_array[0] + '<strong> T: ' + t_array[1] + '</strong>';
+	            	} 
+            	
                 var fun = "#timesince";
                 var fun_re = /#timesince[0-9]+/i;
                 var command = fun_re.exec(text);
@@ -157,7 +170,7 @@
                     var comp_index = command[0].replace(fun, "");
                     var text_array = text.split(fun_re);
                     var comp_time = new Date(fb_time_table[fb_index] - fb_time_table[parseInt(comp_index)]);
-                    return text_array[0] + " " + comp_time.getMinutes() + "m:" + comp_time.getSeconds() + "s " + text_array[1];
+                    return text_array[0] + " " + comp_time.getMinutes() + "m:" + comp_time.getSeconds() + "s" + text_array[1];
                 }
                 return text;
             }
@@ -189,6 +202,8 @@
 	           		else {var sec_str = seconds.toString()}
 	           		if (minutes < 10){var min_str = '0' + minutes.toString();}
 	           		else {var min_str = minutes.toString();}
+	           		var h = (minutes * 60 + seconds) * 1;
+	           		document.getElementsByClassName('hourglass')[0].height = h.toString() +'px';
 	           		document.getElementById('timer').innerHTML = min_str + 'm:'+ sec_str + 's';
 	           	}, 1000);
     		}
