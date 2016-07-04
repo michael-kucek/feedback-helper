@@ -1,35 +1,36 @@
 <!doctype html>
 <html class="no-js" lang="">
-    <head>
-        <style>
-            table {
-              border-collapse: separate;
-              border-spacing: 0;
-              color: #4a4a4d;
-              font: 14px "Helvetica Neue", Helvetica, Arial, sans-serif;
-            }
-            thead {
-                border: 50px;
-                padding: 50px 50px;
-                background: #395870;
-                background: linear-gradient(#49708f, #293f50);
-                color: #f0f0f2;
-                font-size: 15px;
-            }
-            tbody tr:nth-child(even) {
-              background: #f0f0f2;
-            }
-            tbody tr:nth-child(odd) {
-              background: #ffffff;
-            }
-            td {
-              border-bottom: 2px solid #cecfd5;
-              border-right: 2px solid #cecfd5;
-            }
-            td:first-child {
-              border-left: 1px solid #cecfd5;
-            }
-            .fade {
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        table {
+            border-collapse: separate;
+            border-spacing: 0;
+            color: #4a4a4d;
+            font: 14px "Helvetica Neue", Helvetica, Arial, sans-serif;
+        }
+        thead {
+            border: 50px;
+            padding: 50px 50px;
+            background: #395870;
+            background: linear-gradient(#49708f, #293f50);
+            color: #f0f0f2;
+            font-size: 15px;
+        }
+        tbody tr:nth-child(even) {
+            background: #f0f0f2;
+        }
+        tbody tr:nth-child(odd) {
+            background: #ffffff;
+        }
+        td {
+            border-bottom: 2px solid #cecfd5;
+            border-right: 2px solid #cecfd5;
+        }
+        td:first-child {
+            border-left: 1px solid #cecfd5;
+        }
+        .fade {
             background: #f0f0f2;
             padding: 3px 8px;
             -webkit-transition: background .1s;
@@ -37,118 +38,255 @@
             -ms-transition: background .1s;
             -o-transition: background .1s;
             transition: background .1s;
-            }
-            .fade:hover{
-                background:#b3d4fc;
-            }
-            tfoot {
-              text-align: right;
-            }
-            tfoot tr:last-child {
-              background: #f0f0f2;
-              color: #395870;
-              font-weight: bold;
-            }
-            tfoot tr:last-child td:first-child {
-              border-bottom-left-radius: 5px;
-            }
-            tfoot tr:last-child td:last-child {
-              border-bottom-right-radius: 5px;
-            }
-        </style>
-    </head>
-    <body>
-        <!-- Add your site or application content here -->
-        <p>Feedback</p>
-        <textarea id="feedback-box" rows="2" cols="80">line</textarea>
-        <button id="submit-feedback" onclick="feedbackClick()">Submit</button>
-        <div><button id ='change-sort' onclick="adButton()">Ascend/Descend</button></div>
-        <p id="feedback-history"></p>
+        }
+        .fade:hover{
+            background: #fc0300;
+        }
+        tfoot {
+            text-align: right;
+        }
+        tfoot tr:last-child {
+            background: #f0f0f2;
+            color: #395870;
+            font-weight: bold;
+        }
+        tfoot tr:last-child td:first-child {
+            border-bottom-left-radius: 5px;
+        }
+        tfoot tr:last-child td:last-child {
+            border-bottom-right-radius: 5px;
+        }
+        /*.timer {*/
+            /*transition: background 6s;*/
+            /*-webkit-transition: background 6s;*/
+            /*-webkit-transition-delay: 5s*/
+        /*}*/
+        /*.hourglass {*/
+            /*width: 100px;*/
+            /*height: 2px;*/
+            /*background: #98bf21;*/
+            /*position: relative;*/
+            /*bottom: -44px;*/
+        /*}*/
+        /*.teacher {*/
+            /*background:#c8e5fb;*/
+        /*}*/
+        .row-eq-height {
+            display: -webkit-box;
+            display: -webkit-flex;
+            display: -ms-flexbox;
+            display:         flex;
+        }
+        /*visual help*/
+        [class*="col-"] {
+            padding-top: 15px;
+            padding-bottom: 15px;
+            border: 1px solid #ddd;
+            border: 1px solid rgba(86,61,124,.2);
+        }
+        .input-group-addon {
+            min-width:83px;// if you want width please write here //
+            text-align:right;
+        }
+    </style>
+</head>
+<body>
+<div class="container-fluid">
+    <div class="progress">
+        <div id='progress-bar' class="progress-bar progress-bar-striped active" role="progressbar"
+             aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width:0%">
+        </div>
+    </div>
+    <div class="row row-eq-height">
+        <div id='timer' class='col-sm-2 timer well' align="center" style="background-color:lightcyan"><h3>00m:00s</h3></div>
+        <div class="col-sm-2 well" style="background-color:lavender;">
+            <div class="input-group" >
+                <span class="input-group-addon">Teacher</span>
+                <input class='form-control' type="text" id="teach_input" style="vertical-align:top">
 
-        <table id="fbtable">
-            <thead>
-            <tr>
-                <td width="40px">#</td>>
-                <td width="100px">Time</td>
-                <td width="600px">Observation</td>
-                <td width="80px">IP</td>
-            </tr>
-            </thead>
-                        <tbody id="fbtablebodyrev" hidden=true>
+            </div>
+        </div>
+        <div class="col-sm-2 well" style="background-color:lavenderblush;">
+            <div class="input-group">
+                <span class="input-group-addon">Period</span>
+                <input class='form-control' type="number" id="per_input" min='1' max='8'></div>
+                <div class="input-group">
+                <span class="input-group-addon">Students</span>
+                <input class='form-control' type="number" id="stud_input" min="1" max="99">
+            </div>
+        </div>
+        <div class="col-sm-4 well" style="background-color:lightyellow;" align="center">
+            <div class="form-group">
+                <input name="radio" type='hidden' value="Yes" />
+                <div class="btn-group" data-toggle="buttons">
+                    <button id='w' type="button" class="btn btn-default active"
+                            data-radio-name="radio" onclick="walk_obs(this.value)" value="w">Walkthough</button>
+                    <button id='o' type="button" class="btn btn-default"
+                            data-radio-name="radio" onclick="walk_obs(this.value)" value="o" >Observation</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-9">Help<br><li>Type "#timesince[line number] to calculate the time passed"</li>
+            <li>second</li>
+        </div>
+    </div>
+    <div class="input-group">
+        <span class="input-group-btn">
+            <button class="btn btn-default" id ='change-sort' onclick="adButton()">Ascend/Descend</button>
+        </span>
 
-            </tbody>
-            <tbody id="fbtablebody">
+        <input class="form-control" type='text' id='feedback-box' placeholder='Write your observations here' size='80' autofocus>
+        <span class="input-group-btn">
+            <button class="btn btn-default" id="submit-feedback" onclick="feedbackClick()">Submit</button>
+        </span>
+    </div>
+    <!--todo: convert table to divs. Then convert the createrow function to divs as well-->
+    <p id="feedback-history"></p>
+    <table id="fbtable" class="table">
+        <thead>
+        <tr>
+            <th width="40px">#</th>>
+            <th width="100px">Time</th>
+            <th width="600px">Observation</th>
+            <th width="80px">IP</th>
+        </tr>
+        </thead>
+        <tbody id="fbtablebodyrev" hidden=true>
+        </tbody>
+        <tbody id="fbtablebody">
+        </tbody>
+    </table>
+</div>
+<!--<script src="https://code.jquery.com/jquery-{{JQUERY_VERSION}}.min.js"></script>-->
+<!--<script>window.jQuery || document.write('<script src="js/vendor/jquery-{{JQUERY_VERSION}}.min.js"><\/script>')</script>-->
+<script src="js/plugins.js"></script>
+<script src="js/main.js"></script>
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+<!-- jQuery library -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<!-- Latest compiled JavaScript -->
+<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+<script src="http://code.jquery.com/jquery-2.1.0.js"></script>
 
-            </tbody>
-
-        </table>
-
-        <script src="https://code.jquery.com/jquery-{{JQUERY_VERSION}}.min.js"></script>
-        <script>window.jQuery || document.write('<script src="js/vendor/jquery-{{JQUERY_VERSION}}.min.js"><\/script>')</script>
-        <script src="js/plugins.js"></script>
-        <script src="js/main.js"></script>
-        <script>
-            var fb_time_table = [0];
-            var fb_raw_table = [];
-            var fb_index = 0;
-            var aord = false;
-            var current_tab = 'fbtablebody';
-            var switching_to_tab = 'fbtablebodyrev';
-
-//            document.getElementById("fbtable").addEventListener("input", function() {
-//                fb_raw_table
-//            }, false);
-
-            function feedbackClick(){
-                fb_index ++;
-                var current = document.getElementById("fbtablebody").innerHTML;
-
-                var row = create_row();
-                document.getElementById("fbtablebody").innerHTML += row;
-                fb_raw_table.push(row);
+<script>
+    var fb_box = document.getElementById('feedback-box')
+    fb_box.addEventListener('keydown', function(e){
+        if (e.which == 13 && fb_box.value != ''){
+            feedbackClick();
+        }
+    } , false);
+    var fb_time_table = [0];
+    var fb_raw_table = [];
+    var fb_index = 0;
+    var aord = false;
+    var current_tab = 'fbtablebody';
+    var switching_to_tab = 'fbtablebodyrev';
+    var wo = "w";
+    //            document.getElementById("fbtable").addEventListener("input", function() {
+    //                fb_raw_table
+    //            }, false);
+    function feedbackClick(){
+        if (fb_box.value == ''){
+            return null;
+        }
+        if (fb_index == 0){
+            <!--                		document.getElementById("hourglass").style.height = '100px'; -->
+            clocking();
+        }
+        fb_index ++;
+        var current = document.getElementById("fbtablebody").innerHTML;
+        var row = create_row();
+        document.getElementById("fbtablebody").innerHTML += row;
+        fb_raw_table.push(row);
 //                let's go backwards
-                var currentrev = document.getElementById("fbtablebodyrev").innerHTML;
-                var goback = row + currentrev;
-                document.getElementById("fbtablebodyrev").innerHTML = goback;
+        var currentrev = document.getElementById("fbtablebodyrev").innerHTML;
+        var goback = row + currentrev;
+        document.getElementById("fbtablebodyrev").innerHTML = goback;
+        fb_box.value = '';
+    }
+    function create_row() {
+        var cur_time = new Date();
+        fb_time_table.push(cur_time);
+        var fb_content = document.getElementById("feedback-box").value;
+        var fb_parsed = parse_text(fb_content);
+        var rand = Math.floor((Math.random() * 10) + 1);
+//        return "<div class='col-sm-12'>" + fb_index + "</div>";
+        return "<tr><td>" + fb_index + "</td><td>" + cur_time.toLocaleTimeString() + "</td><td contenteditable=true>"  + fb_parsed + "</td><td>" + "IP" + rand + "</td></tr>\n";
+    }
+    function parse_text(text) {
+        var teacher = "T:";
+        var teacher_re = /T:/i;
+        var t_match = teacher_re.exec(text)
+        if (t_match != null){
+            var t_array = text.split(teacher_re);
+            text = t_array[0] + '<span class="teacher"> T: ' + t_array[1] + '</span>';
+        }
 
+        var fun = "#timesince";
+        var fun_re = /#timesince[0-9]+/i;
+        var command = fun_re.exec(text);
+        if (command != null){
+            var comp_index = command[0].replace(fun, "");
+            var text_array = text.split(fun_re);
+            var comp_time = new Date(fb_time_table[fb_index] - fb_time_table[parseInt(comp_index)]);
+            return text_array[0] + " " + comp_time.getMinutes() + "m:" + comp_time.getSeconds() + "s" + text_array[1];
+        }
+        return text;
+    }
+    function adButton() {
+        var rev = '';
+        if (document.getElementById("fbtablebody").hidden == true) {
+            current_tab = 'fbtablebodyrev';
+            switching_to_tab = 'fbtablebody';
+        }
+        var rev_rows = document.getElementById(current_tab).innerHTML.split('\n');
+        rev_rows.reverse();
+        for (i = 0; i < rev_rows.length; i++) {
+            rev += rev_rows[i] + '\n';
+        }
+        document.getElementById(switching_to_tab).innerHTML = rev;
+        document.getElementById("fbtablebody").hidden = !(document.getElementById("fbtablebody").hidden);
+        document.getElementById("fbtablebodyrev").hidden = !(document.getElementById("fbtablebodyrev").hidden);
+    }
 
-            }
-            function create_row() {
-                var cur_time = new Date();
-                fb_time_table.push(cur_time);
-                var fb_content = document.getElementById("feedback-box").value;
-                var fb_parsed = parse_text(fb_content);
-                var rand = Math.floor((Math.random() * 10) + 1);
-                return "<tr class='fade'><td>" + fb_index + "</td><td>" + cur_time.toLocaleTimeString() + "</td><td contenteditable=true>"  + fb_parsed + "</td><td>" + "IP" + rand + "</td></tr>\n";
-            }
-            function parse_text(text) {
-                var fun = "#timesince";
-                var fun_re = /#timesince[0-9]+/i;
-                var command = fun_re.exec(text);
-                if (command != null){
-                    var comp_index = command[0].replace(fun, "");
-                    var text_array = text.split(fun_re);
-                    var comp_time = new Date(fb_time_table[fb_index] - fb_time_table[parseInt(comp_index)]);
-                    return text_array[0] + " " + comp_time.getMinutes() + "m:" + comp_time.getSeconds() + "s " + text_array[1];
-                }
-                return text;
-            }
-            function adButton() {
-                var rev = '';
-                if (document.getElementById("fbtablebody").hidden == true) {
-                    current_tab = 'fbtablebodyrev';
-                    switching_to_tab = 'fbtablebody';
-                }
-                var rev_rows = document.getElementById(current_tab).innerHTML.split('\n');
-                rev_rows.reverse();
-                for (i = 0; i < rev_rows.length; i++) {
-                    rev += rev_rows[i] + '\n';
-                }
-                document.getElementById(switching_to_tab).innerHTML = rev;
-                document.getElementById("fbtablebody").hidden = !(document.getElementById("fbtablebody").hidden);
-                document.getElementById("fbtablebodyrev").hidden = !(document.getElementById("fbtablebodyrev").hidden);
-            }
+    function walk_obs(walk_or_obs){
+//        old
+        document.getElementById(wo).setAttribute('class', 'btn btn-default');
+        wo = walk_or_obs;
+//        new
+        document.getElementById(wo).setAttribute('class', 'btn btn-default active');
 
-        </script>
-    </body>
+    }
+
+    function clocking() {
+        var seconds = 0;
+        var minutes = 0;
+        setInterval(function(){
+            seconds++;
+            if (seconds >= 60){
+                seconds = 0;
+                minutes++;
+            }
+            if (seconds < 10){var sec_str = '0' + seconds.toString();}
+            else {var sec_str = seconds.toString()}
+            if (minutes < 10){var min_str = '0' + minutes.toString();}
+            else {var min_str = minutes.toString();}
+            var total_sec_ellapsed = (minutes * 60 + seconds) * 1;
+            if (wo == "w"){
+                var total_sec = 10 * 60;
+            }
+            else {
+                var total_sec = 30 * 60;
+            }
+            var cur_prog = (total_sec_ellapsed / total_sec) * 100;
+            document.getElementById("progress-bar").setAttribute('style', 'width:'+ cur_prog.toString() + "%");
+            document.getElementById('timer').innerHTML = '<h3>' + min_str + 'm:'+ sec_str + 's</h3>';
+
+        }, 1000);
+    }
+</script>
+</body>
 </html>
